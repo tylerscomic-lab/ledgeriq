@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LedgerIQ — AI Tools for Accountants & CPA Firms</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #09090b;
+      color: #e4e4e7;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 2.5rem;
+      border-bottom: 1px solid #18181b;
+      position: sticky;
+      top: 0;
+      background: rgba(9, 9, 11, 0.92);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    .logo { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px; color: #fff; }
+    .logo span { color: #10b981; }
+    .nav-cta {
+      background: #10b981;
+      color: #fff;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .nav-cta:hover { background: #059669; }
+
+    /* HERO */
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 6rem 2rem 4.5rem;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #10b981;
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      color: #fff;
+      margin-bottom: 1.2rem;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: #71717a;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+    .hero-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #10b981;
+      color: #fff;
+      padding: 0.8rem 1.8rem;
+      border-radius: 7px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary:hover { background: #059669; transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent;
+      color: #a1a1aa;
+      padding: 0.8rem 1.8rem;
+      border-radius: 7px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border: 1px solid #27272a;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-secondary:hover { border-color: #3f3f46; color: #e4e4e7; }
+
+    /* SECTION SHARED */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #10b981;
+      margin-bottom: 0.6rem;
+    }
+    .section h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.75px;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+    .section-sub {
+      color: #52525b;
+      font-size: 0.95rem;
+      margin-bottom: 3rem;
+      max-width: 500px;
+      line-height: 1.65;
+    }
+
+    /* ALT BACKGROUND */
+    .alt-bg {
+      background: #09090b;
+      border-top: 1px solid #18181b;
+      border-bottom: 1px solid #18181b;
+    }
+
+    /* BEFORE / AFTER */
+    .ba-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #1f1f23;
+      border: 1px solid #1f1f23;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .ba-col { padding: 2rem; background: #09090b; }
+    .ba-col-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .ba-col-label.before { color: #71717a; }
+    .ba-col-label.after { color: #10b981; }
+    .ba-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      line-height: 1.55;
+    }
+    .ba-row .icon { flex-shrink: 0; margin-top: 1px; }
+    .ba-row .icon.x { color: #52525b; }
+    .ba-row .icon.check { color: #4ade80; }
+    .ba-row p { color: #71717a; }
+    .ba-row.after-row p { color: #a1a1aa; }
+
+    /* DEMO CONVERSATIONS */
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .demo-card {
+      border: 1px solid #1f1f23;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .demo-card-header {
+      background: #111113;
+      padding: 0.75rem 1.2rem;
+      border-bottom: 1px solid #1f1f23;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #10b981;
+    }
+    .demo-card-body { padding: 1.2rem; }
+    .demo-msg { margin-bottom: 0.9rem; font-size: 0.85rem; line-height: 1.6; }
+    .demo-msg:last-child { margin-bottom: 0; }
+    .demo-msg .speaker {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .demo-msg .speaker.user { color: #52525b; }
+    .demo-msg .speaker.ai { color: #10b981; }
+    .demo-msg .text { color: #a1a1aa; }
+    .demo-msg .text.ai-text { color: #e4e4e7; }
+    .demo-msg .highlight { color: #4ade80; }
+    .demo-msg .note { color: #f59e0b; }
+
+    /* TOOLS GRID */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .tool-card {
+      border: 1px solid #1f1f23;
+      border-radius: 9px;
+      padding: 1.6rem;
+      transition: border-color 0.15s;
+    }
+    .tool-card:hover { border-color: #10b981; }
+    .tool-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+    }
+    .tool-card h3 { font-size: 0.95rem; font-weight: 700; color: #e4e4e7; margin-bottom: 0.5rem; }
+    .tool-card p { font-size: 0.85rem; color: #52525b; line-height: 1.65; }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
+    .step-num { font-size: 0.7rem; font-weight: 700; color: #10b981; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .step h3 { font-size: 0.9rem; font-weight: 700; color: #e4e4e7; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.83rem; color: #52525b; line-height: 1.6; }
+
+    /* WHO IT'S FOR */
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .who-card { border: 1px solid #1f1f23; border-radius: 8px; padding: 1.4rem; }
+    .who-card h3 { font-size: 0.875rem; font-weight: 700; color: #e4e4e7; margin-bottom: 0.4rem; }
+    .who-card p { font-size: 0.83rem; color: #52525b; line-height: 1.55; }
+
+    /* TESTIMONIALS */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .testimonial-card {
+      border: 1px solid #1f1f23;
+      border-radius: 10px;
+      padding: 1.6rem;
+      background: #0d0d10;
+    }
+    .testimonial-quote {
+      font-size: 0.9rem;
+      color: #a1a1aa;
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+      font-style: italic;
+    }
+    .testimonial-author {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #52525b;
+      letter-spacing: 0.04em;
+    }
+    .testimonial-author span {
+      color: #10b981;
+      font-weight: 400;
+      font-style: normal;
+      display: block;
+      margin-top: 0.15rem;
+    }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid #18181b;
+      padding: 1.4rem 0;
+    }
+    .faq-item:first-child { border-top: 1px solid #18181b; }
+    .faq-q {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e4e4e7;
+      margin-bottom: 0.5rem;
+    }
+    .faq-a { font-size: 0.875rem; color: #52525b; line-height: 1.7; max-width: 640px; }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 2rem;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.75px;
+      margin-bottom: 0.8rem;
+    }
+    .cta-section p { color: #52525b; font-size: 0.95rem; margin-bottom: 1.8rem; line-height: 1.7; }
+    .cta-btn {
+      display: inline-block;
+      background: #10b981;
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 7px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .cta-btn:hover { background: #059669; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #18181b;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #3f3f46;
+    }
+    footer a { color: #52525b; transition: color 0.15s; }
+    footer a:hover { color: #a1a1aa; }
+
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.2rem; }
+      .hero { padding: 4rem 1.2rem 3rem; }
+      .section { padding: 3.5rem 1.2rem; }
+      .ba-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 4rem 1.2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Ledger<span>IQ</span></div>
+    <a href="mailto:tylerscomic@gmail.com" class="nav-cta">Get in Touch</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">AI Tools for Accounting Professionals</div>
+    <h1>Stop doing the same calculations twice.</h1>
+    <p>LedgerIQ gives CPA firms, bookkeepers, and corporate accountants AI-powered tools that handle your most repetitive work — deadlines, depreciation, payroll math, deductions — instantly, inside Claude or ChatGPT.</p>
+    <div class="hero-actions">
+      <a href="mailto:tylerscomic@gmail.com?subject=Demo%20Request%20%E2%80%94%20LedgerIQ&body=Hi%20Tyler%2C%0A%0AI%27d%20like%20to%20see%20a%20demo%20of%20LedgerIQ%20for%20my%20accounting%20practice.%0A%0AFirm%20type%3A%20%0ATeam%20size%3A%20%0ABest%20time%20to%20connect%3A%20" class="btn-primary">Request a Demo</a>
+      <a href="#tools" class="btn-secondary">See the Tools</a>
+    </div>
+    <p style="margin-top: 1rem; font-size: 0.78rem; color: #3f3f46;">No contract. No install. Works in AI assistants you already use.</p>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section class="section" style="padding-top: 0;">
+    <div class="ba-grid">
+      <div class="ba-col">
+        <div class="ba-col-label before">Right Now</div>
+        <div class="ba-row">
+          <span class="icon x">✕</span>
+          <p>Look up a depreciation schedule in a spreadsheet or IRS pub</p>
+        </div>
+        <div class="ba-row">
+          <span class="icon x">✕</span>
+          <p>Manually track every filing deadline across dozens of clients</p>
+        </div>
+        <div class="ba-row">
+          <span class="icon x">✕</span>
+          <p>Recalculate payroll taxes by hand or switch to a separate tool</p>
+        </div>
+        <div class="ba-row">
+          <span class="icon x">✕</span>
+          <p>Google "does this need a 1099?" for the hundredth time</p>
+        </div>
+      </div>
+      <div class="ba-col">
+        <div class="ba-col-label after">With LedgerIQ</div>
+        <div class="ba-row after-row">
+          <span class="icon check">✓</span>
+          <p>Ask in plain English — get the full MACRS schedule instantly</p>
+        </div>
+        <div class="ba-row after-row">
+          <span class="icon check">✓</span>
+          <p>Get every federal and state deadline for any entity type, on demand</p>
+        </div>
+        <div class="ba-row after-row">
+          <span class="icon check">✓</span>
+          <p>Payroll tax breakdown in seconds — employer cost, net pay, all of it</p>
+        </div>
+        <div class="ba-row after-row">
+          <span class="icon check">✓</span>
+          <p>1099 rules, form type, and deadline returned immediately</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO CONVERSATIONS -->
+  <div class="alt-bg">
+    <section class="section">
+      <div class="section-eyebrow">See It In Action</div>
+      <h2>What it actually looks like to use.</h2>
+      <p class="section-sub">Every tool runs inside Claude or ChatGPT. Your staff asks in plain English and gets a precise, actionable answer.</p>
+      <div class="demos-grid">
+
+        <div class="demo-card">
+          <div class="demo-card-header">Depreciation Calculator</div>
+          <div class="demo-card-body">
+            <div class="demo-msg">
+              <div class="speaker user">Accountant</div>
+              <div class="text">Client bought a $48,000 work truck on March 15th. What's the depreciation for year one and the full MACRS schedule?</div>
+            </div>
+            <div class="demo-msg">
+              <div class="speaker ai">LedgerIQ</div>
+              <div class="text ai-text">
+                5-year MACRS property (trucks). Using half-year convention:<br><br>
+                <span class="highlight">Year 1: $9,600 (20%)</span> — or <span class="highlight">$48,000 with 100% bonus depreciation</span> if elected.<br><br>
+                Full schedule: Y1 20%, Y2 32%, Y3 19.2%, Y4 11.52%, Y5 11.52%, Y6 5.76%. Section 179 up to $1,160,000 is also available. Want me to show the comparison with and without bonus depreciation?
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <div class="demo-card-header">Tax Deadline Tracker</div>
+          <div class="demo-card-body">
+            <div class="demo-msg">
+              <div class="speaker user">CPA</div>
+              <div class="text">I have an S-Corp client in New York on a calendar year. What are all their filing deadlines this year?</div>
+            </div>
+            <div class="demo-msg">
+              <div class="speaker ai">LedgerIQ</div>
+              <div class="text ai-text">
+                <span class="highlight">Federal:</span> Form 1120-S due March 15 (extended to Sept 15). Q1 estimated: April 15. Q2: June 16. Q3: Sept 15. Q4: Dec 16.<br><br>
+                <span class="highlight">New York:</span> Form CT-3-S also due March 15. NY also requires separate payroll filings (NYS-45) quarterly. W-2s to employees: January 31. <span class="note">Extension does not extend time to pay — estimated taxes still due March 15.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <div class="demo-card-header">Entity Structure Analyzer</div>
+          <div class="demo-card-body">
+            <div class="demo-msg">
+              <div class="speaker user">Bookkeeper</div>
+              <div class="text">My client nets $180k/year as a sole prop in Texas. Would switching to S-Corp actually save them money?</div>
+            </div>
+            <div class="demo-msg">
+              <div class="speaker ai">LedgerIQ</div>
+              <div class="text ai-text">
+                At $180k net, <span class="highlight">S-Corp saves roughly $8,100–$10,800/year</span> in self-employment tax by paying a reasonable salary (est. $70k) and taking the rest as distributions.<br><br>
+                S-Corp costs: ~$1,000–1,500/yr in additional compliance (payroll, 1120-S). <span class="highlight">Net savings: ~$7,000–9,500/yr.</span> Texas has no state income tax, so no additional state-level benefit. Worth converting at this income level.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- THE 8 TOOLS -->
+  <section class="section" id="tools">
+    <div class="section-eyebrow">The Tools</div>
+    <h2>Eight tools built for accounting work.</h2>
+    <p class="section-sub">Each one handles a specific task your team does repeatedly. No more switching tabs, digging through IRS pubs, or re-doing the same math.</p>
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 01</div>
+        <h3>Tax Deadline Tracker</h3>
+        <p>Input entity type, state, and fiscal year — get every federal and state filing deadline, extension date, and estimated tax due date in one place.</p>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 02</div>
+        <h3>Entity Structure Analyzer</h3>
+        <p>Compare Sole Prop vs LLC vs S-Corp vs C-Corp side by side. Shows estimated annual tax savings by structure based on actual income and state.</p>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 03</div>
+        <h3>Depreciation Calculator</h3>
+        <p>Full MACRS schedule, Section 179 election, and bonus depreciation options for any asset — output includes cumulative write-offs by year.</p>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 04</div>
+        <h3>Payroll Tax Estimator</h3>
+        <p>Input gross wages, state, pay frequency, and filing status — get employee net pay, employer FICA match, FUTA/SUTA, and total cost to company.</p>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 05</div>
+        <h3>Deduction Finder</h3>
+        <p>Input business type and situation — get a full list of deductions the client may be missing: vehicle, home office, retirement, QBI, startup costs, and more.</p>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 06</div>
+        <h3>Journal Entry Assistant</h3>
+        <p>Describe a transaction in plain English — get the proper debit/credit entries with account names, GAAP basis, and P&L vs balance sheet treatment.</p>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 07</div>
+        <h3>Financial Ratio Analyzer</h3>
+        <p>Input income statement and balance sheet figures — get 10+ ratios (current, quick, ROA, D/E, gross margin, and more) with plain-English interpretation.</p>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-num">TOOL 08</div>
+        <h3>1099 / W-2 Compliance Checker</h3>
+        <p>Input payment type, amount, and recipient — instantly know if a 1099 is required, which form to use, the filing deadline, and backup withholding rules.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <div class="alt-bg">
+    <section class="section" id="how">
+      <div class="section-eyebrow">How It Works</div>
+      <h2>No new software. Works in tools you already have.</h2>
+      <p class="section-sub">LedgerIQ tools run inside Claude or ChatGPT via MCP — your team asks questions in plain English and gets precise answers instantly.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">STEP 01</div>
+          <h3>Connect once</h3>
+          <p>We add the LedgerIQ tools to your Claude or ChatGPT account. One-time setup, takes about 5 minutes.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 02</div>
+          <h3>Ask in plain English</h3>
+          <p>Your team types a question the same way they'd ask a colleague. No special syntax, no dropdown menus.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 03</div>
+          <h3>Get a precise answer</h3>
+          <p>Calculations, schedules, checklists, and compliance details — returned immediately, ready to copy into your work.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">STEP 04</div>
+          <h3>Keep all your other tools</h3>
+          <p>LedgerIQ adds speed to your existing workflow. It doesn't replace QuickBooks, Xero, or your tax software.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- WHO IT'S FOR -->
+  <section class="section">
+    <div class="section-eyebrow">Who It's For</div>
+    <h2>Built for every role in the accounting world.</h2>
+    <p class="section-sub">Whether you run a firm, manage books for clients, or handle accounting in-house — these tools save time on tasks every accounting professional does repeatedly.</p>
+    <div class="who-grid">
+      <div class="who-card">
+        <h3>CPA Firms</h3>
+        <p>Deadline tracking, entity analysis, and 1099 compliance for an entire client book — without the manual lookups.</p>
+      </div>
+      <div class="who-card">
+        <h3>Independent Bookkeepers</h3>
+        <p>Journal entry help, deduction finders, and payroll math — tools that let you add advisory value beyond just the books.</p>
+      </div>
+      <div class="who-card">
+        <h3>Corporate Accountants</h3>
+        <p>Ratio analysis, depreciation schedules, and payroll estimates for internal reporting and management conversations.</p>
+      </div>
+      <div class="who-card">
+        <h3>Tax Preparers & EAs</h3>
+        <p>Deduction checklists, entity comparisons, and deadline calendars that speed up intake and preparation work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <div class="alt-bg">
+    <section class="section">
+      <div class="section-eyebrow">What People Are Saying</div>
+      <h2>Built around the work accountants actually do.</h2>
+      <p class="section-sub">A few words from accounting professionals who stopped looking things up twice.</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"I used to spend 20 minutes building out a depreciation schedule for a new asset. Now I describe the asset and have the full MACRS table in 30 seconds. That's not an exaggeration — it's that fast."</div>
+          <div class="testimonial-author">Rachel K.
+            <span>CPA, Small Business Practice</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"The entity structure tool alone paid for itself. I had three S-Corp conversion conversations with clients in the first month — showed them exactly what they'd save. That's billable advisory work I wasn't doing before."</div>
+          <div class="testimonial-author">Marcus D.
+            <span>Enrolled Agent, Tax Practice</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">"My junior staff was constantly interrupting me to ask how to record something or which 1099 form to use. Now they check LedgerIQ first. I get my mornings back."</div>
+          <div class="testimonial-author">Denise W.
+            <span>Controller, Mid-Size Company</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="section-eyebrow">Common Questions</div>
+    <h2>Things firms usually ask first.</h2>
+    <p class="section-sub"></p>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q">Does my team need to learn new software?</div>
+        <div class="faq-a">No. The tools run inside Claude or ChatGPT, which your team may already use. They ask questions in plain English — no dashboards, no training.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How accurate are the calculations?</div>
+        <div class="faq-a">The tools use current IRS rules, MACRS tables, FICA rates, and state tax data. They're designed for professional use — precise enough to inform your work and check against your own calculations.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">What's MCP and why does it matter?</div>
+        <div class="faq-a">MCP (Model Context Protocol) is the standard that lets AI assistants like Claude or ChatGPT connect to external tools. It means your AI isn't just guessing — it's running actual calculations against current data and returning structured results.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Can I get tools built specifically for my firm?</div>
+        <div class="faq-a">Yes. Beyond the eight standard tools, we build custom tools around your specific workflows — client intake checklists, firm-specific fee calculators, or internal process lookup tools. Reach out to discuss.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How long does setup take?</div>
+        <div class="faq-a">Standard tools are connected in under a day. Custom tools take 1–2 weeks depending on scope. There's nothing for your clients or staff to download.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <div class="alt-bg">
+    <div class="cta-section">
+      <h2>See it working in 15 minutes.</h2>
+      <p>Pick a tool, bring a real example from your practice, and we'll show you exactly what the output looks like. No commitment, no pitch deck.</p>
+      <a href="mailto:tylerscomic@gmail.com?subject=LedgerIQ%20Demo%20Request&body=Hi%20Tyler%2C%0A%0AI%27d%20like%20to%20see%20LedgerIQ%20in%20action.%0A%0AFirm%20type%3A%20%0ATeam%20size%3A%20%0ATools%20most%20interested%20in%3A%20%0ABest%20time%3A%20" class="cta-btn">Request a Demo</a>
+      <p style="margin-top: 1rem; font-size: 0.78rem; color: #3f3f46;">tylerscomic@gmail.com</p>
+    </div>
+  </div>
+
+  <footer>
+    <div>LedgerIQ — AI tools for accounting professionals</div>
+    <div><a href="mailto:tylerscomic@gmail.com">tylerscomic@gmail.com</a></div>
+  </footer>
+
+</body>
+</html>
